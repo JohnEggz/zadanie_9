@@ -4,7 +4,6 @@ import tensorflow as tf
 from sklearn.preprocessing import StandardScaler
 from sklearn.manifold import TSNE
 from sklearn.cluster import KMeans as SklearnKMeans
-from sklearn.metrics import adjusted_rand_score
 
 class SimpleKMeans:
     def __init__(self, n_clusters=10, max_iter=300, tol=1e-4, random_state=42):
@@ -66,8 +65,6 @@ custom_km.fit(X_train_scaled)
 custom_preds = custom_km.predict(X_test_scaled)
 custom_centers = custom_km.cluster_centers_
 
-ari = adjusted_rand_score(sklearn_preds, custom_preds)
-print(f"Podobieństwo decyzji (Adjusted Rand Index): {ari:.4f}")
 
 X_combined = np.vstack([X_test_scaled, sklearn_centers, custom_centers])
 tsne = TSNE(n_components=2, random_state=42, init='pca', learning_rate='auto')
@@ -105,5 +102,5 @@ ax2.scatter(
 ax2.set_title("Własna implementacja (SimpleKMeans)")
 ax2.legend()
 
-plt.suptitle(f"Porównanie klastrów (ARI: {ari:.3f})")
+plt.suptitle(f"Porównanie klastrów")
 plt.show()
